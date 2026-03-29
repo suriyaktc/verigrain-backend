@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VeriGrain | Elite AI-Quantum Command</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #050505; }
+        .font-sync { font-family: 'Syncopate', sans-serif; }
+        .gold-text { color: #D4AF37; }
+        .gold-border { border-color: #D4AF37; }
+        .gold-bg { background: linear-gradient(135deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C); }
+        .gold-shadow { shadow-lg shadow-[#D4AF37]/20; }
+        .glass { background: rgba(20, 20, 20, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(212, 175, 55, 0.1); }
+        .animate-glow { animation: glow 2s infinite alternate; }
+        @keyframes glow { from { box-shadow: 0 0 5px #aa771c; } to { box-shadow: 0 0 20px #D4AF37; } }
+    </style>
+</head>
+<body class="text-gray-200 min-h-screen">
+
+    <nav class="p-8 border-b border-yellow-900/30 flex justify-between items-center glass">
+        <h1 class="font-sync text-2xl font-bold tracking-widest gold-text">
+            VERIGRAIN <span class="text-[10px] text-gray-500 block tracking-[0.5em]">QUANTUM-AGRICULTURE</span>
+        </h1>
+        <div class="flex gap-6 items-center">
+            <div class="text-right">
+                <p class="text-[10px] text-gray-500 uppercase tracking-widest">System Status</p>
+                <p class="text-xs gold-text font-semibold">ENCRYPTED & ACTIVE</p>
+            </div>
+            <div class="h-10 w-10 rounded-full border border-yellow-600/50 flex items-center justify-center">
+                <div class="h-2 w-2 bg-yellow-500 rounded-full animate-pulse"></div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto p-10 grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <div class="lg:col-span-3 space-y-6">
+            <div class="glass p-6 rounded-xl">
+                <p class="text-[10px] text-gray-500 uppercase mb-2">Network Latency</p>
+                <p class="text-xl gold-text font-sync">0.002ms</p>
+            </div>
+            <div class="glass p-6 rounded-xl">
+                <p class="text-[10px] text-gray-500 uppercase mb-2">Quantum Qubits</p>
+                <p class="text-xl gold-text font-sync">54 ACTIVE</p>
+            </div>
+        </div>
+
+        <div class="lg:col-span-6 space-y-8">
+            <div class="glass p-8 rounded-3xl relative overflow-hidden group">
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition">
+                    <svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="1"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+                </div>
+                
+                <h2 class="font-sync text-sm gold-text mb-6 tracking-tighter">I. CROP_DIAGNOSTICS</h2>
+                <div class="space-y-4">
+                    <input id="farmerName" type="text" placeholder="AUTH_ID (NAME)" class="w-full bg-black/50 border border-yellow-900/30 p-4 rounded-xl focus:outline-none focus:gold-border transition text-sm">
+                    <div class="relative group cursor-pointer">
+                        <input id="imageFile" type="file" class="hidden">
+                        <label for="imageFile" class="flex items-center justify-center border-2 border-dashed border-yellow-900/30 p-8 rounded-xl hover:bg-yellow-500/5 transition cursor-pointer">
+                            <span class="text-xs text-gray-500 uppercase tracking-widest">Upload Satellite/Field Imagery</span>
+                        </label>
+                    </div>
+                    <button onclick="analyzeCrop()" class="w-full gold-bg text-black font-sync text-xs py-4 rounded-xl font-bold tracking-widest hover:scale-[1.02] transition-transform shadow-2xl shadow-yellow-600/20">
+                        INITIATE AI SCAN
+                    </button>
+                </div>
+                <div id="aiResult" class="mt-6 p-6 rounded-xl bg-black/80 border border-yellow-600/20 hidden animate-glow">
+                    </div>
+            </div>
+
+            <div class="glass p-8 rounded-3xl">
+                <h2 class="font-sync text-sm gold-text mb-6 tracking-tighter">II. LOGISTICS_OPTIMIZATION</h2>
+                <button onclick="runQuantum()" class="w-full border border-yellow-600/40 text-yellow-500 font-sync text-xs py-4 rounded-xl hover:bg-yellow-600 hover:text-black transition tracking-widest">
+                    SOLVE VIA QAOA CIRCUIT
+                </button>
+                <div id="quantumResult" class="mt-6 p-6 rounded-xl bg-black/80 border border-yellow-600/20 hidden font-mono">
+                    </div>
+            </div>
+        </div>
+
+        <div class="lg:col-span-3 glass p-6 rounded-2xl">
+            <h3 class="text-[10px] gold-text font-sync mb-4">SYSTEM_LOGS</h3>
+            <div class="text-[10px] text-gray-500 space-y-2 font-mono">
+                <p>> Booting kernel...</p>
+                <p>> AI_ENG: READY</p>
+                <p>> Q_SOLV: READY</p>
+                <p>> DB_LINK: CONNECTED</p>
+                <div id="liveLogs"></div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Logic same as before but with added flair
+        async function analyzeCrop() {
+            const name = document.getElementById('farmerName').value;
+            const fileInput = document.getElementById('imageFile');
+            const resultDiv = document.getElementById('aiResult');
+            const logs = document.getElementById('liveLogs');
+
+            if(!name || !fileInput.files[0]) return;
+
+            resultDiv.classList.remove('hidden');
+            resultDiv.innerHTML = "<p class='animate-pulse text-xs gold-text'>DECRYPTING BIOMETRIC DATA...</p>";
+            logs.innerHTML += `<p class='text-yellow-600'>> Request from ${name}...</p>`;
+
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+
+            try {
+                const response = await fetch(`/analyze?farmer_name=${name}`, { method: 'POST', body: formData });
+                const res = await response.json();
+                const data = res.data;
+                
+                resultDiv.innerHTML = `
+                    <div class="flex justify-between items-end">
+                        <div>
+                            <p class="text-[10px] text-gray-500 uppercase">Analysis Complete</p>
+                            <p class="text-3xl font-sync gold-text">${data.health_score}%</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xs ${data.health_score > 60 ? 'text-green-500' : 'text-red-500'} font-bold">${data.status}</p>
+                        </div>
+                    </div>
+                `;
+                logs.innerHTML += `<p class='text-green-800'>> Scan successful: ${data.health_score}%</p>`;
+            } catch (e) { resultDiv.innerHTML = "SYSTEM ERROR"; }
+        }
+
+        async function runQuantum() {
+            const resultDiv = document.getElementById('quantumResult');
+            resultDiv.classList.remove('hidden');
+            resultDiv.innerHTML = "<p class='animate-pulse text-xs gold-text'>ENTANGLING QUBITS...</p>";
+
+            try {
+                const response = await fetch('/optimize-delivery');
+                const data = await response.json();
+                resultDiv.innerHTML = `
+                    <div class="text-yellow-500 text-xs mb-2">> BIT_ARRAY: ${JSON.stringify(data.result.quantum_binary_result)}</div>
+                    <div class="text-[10px] text-gray-400">Route successfully calculated using Hybrid Quantum computing.</div>
+                `;
+            } catch (e) { resultDiv.innerHTML = "QUANTUM TIMEOUT"; }
+        }
+    </script>
+</body>
+</html>
