@@ -22,13 +22,14 @@ ROOT_DIR = os.path.dirname(CURRENT_DIR)
 
 @app.get("/", response_class=HTMLResponse)
 async def serve_dashboard():
-    index_path = os.path.join(ROOT_DIR, "static", "index.html")
+    # This finds the static folder regardless of where Vercel mounts the app
+    path_to_index = os.path.join(os.path.dirname(os.path.dirname(__file__)), "static", "index.html")
     
-    if not os.path.exists(index_path):
-        return f"<h1>System Error</h1><p>UI file not found at {index_path}</p>"
-    
-    with open(index_path, "r") as f:
-        return f.read()
+    try:
+        with open(path_to_index, "r") as f:
+            return f.read()
+    except FileNotFoundError:
+        return "<h1>Front-end Not Found</h1><p>Check if static/index.html exists in root.</p>"
 
 @app.post("/analyze")
 async def scan_crop(farmer_name: str = Query(...), file: UploadFile = File(...)):

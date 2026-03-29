@@ -2,6 +2,7 @@ fastapi
 uvicorn[standard]
 opencv-python-headless
 numpy
+python-multipart
 motor
 pydantic
 python-dotenv
