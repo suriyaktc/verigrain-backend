@@ -1,3 +1,10 @@
+from .ai_engine import analyze_crop_health
+from .quantum_engine import optimize_logistics
+# try/except for database in case it's not linked yet
+try:
+    from .database import db
+except ImportError:
+    db = None
 import os
 import shutil
 from fastapi import FastAPI, UploadFile, File, Query, HTTPException
