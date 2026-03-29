@@ -1,4 +1,7 @@
 fastapi
-uvicorn
+uvicorn[standard]
 opencv-python-headless
 numpy
+motor
+pydantic
+python-dotenv
